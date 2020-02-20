@@ -1,0 +1,112 @@
+{include file="public/header" /}
+</head>
+<body>
+
+<form id="menu_add" class="layui-form" style="padding: 20px 20px 60px 0;">
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">角色名称</label>
+        <div class="layui-input-inline">
+            <input type="hidden" value="{$role.id}" name ="id" >
+            <input type="text" name ="name" value="{$role.name}"  autocomplete="off" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">角色描述</label>
+        <div class="layui-input-inline">
+            <input type="text" name ="des" value="{$role.des}"  autocomplete="off" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">排序</label>
+        <div class="layui-input-inline">
+            <input type="text" name="order"  value="{$role.order}" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">状态</label>
+        <div class="layui-input-block">
+            <input type="checkbox" name="status" {$role.status? '' :'checked'} lay-skin="switch" lay-text="启用|禁用">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">权限范围</label>
+        <ul class="layui-input-block" style="margin-top: 10px ;">
+            {volist name="role.menu" id="vo"}
+            <li>
+                <input type="checkbox" name="right[]"
+                       {php}
+                       if(in_array($vo['id'],$role['right'])){
+                echo "checked";
+                }
+                {/php}
+                value="{$vo.id}" class="parent" lay-skin="primary" title="{$vo.name}">
+                {if isset($vo['son'])}
+                <ul style="margin-left: 50px">
+                    {volist name="$vo['son']|genTree" id="vo1"}
+                    <input type="checkbox" name="right[]"
+                           {php}
+                           if(in_array($vo1['id'],$role['right'])){
+                    echo "checked";
+                    }
+                    {/php}
+                    value="{$vo1.id}" lay-skin="primary" title={$vo1.name}>
+                    {if isset($vo1['son'])}
+                    {volist name="$vo1['son']|genTree" id="vo2"}
+                    <input type="checkbox" name="right[]"
+                           {php}
+                           if(in_array($vo2['id'],$role['right'])){
+                    echo "checked";
+                    }
+                    {/php}
+                    value="{$vo2.id}" lay-skin="primary" title={$vo2.name}>
+                    {/volist}
+                    {/if}
+                    {/volist}
+                </ul>
+                {/if}
+            </li>
+            {/volist}
+        </ul>
+    </div>
+    <div style="padding-bottom: 10px;float: right;">
+        <button type="button" class="layui-btn" lay-submit lay-filter="edit" >修改</button>
+        <button type="button" class="layui-btn" onclick="back()">取消</button>
+    </div>
+
+</form>
+{include file="public/js"}
+<script type="text/javascript">
+
+    layui.form.on('submit(edit)',function (data) {
+        // console.log(data.field);
+        if (data.field.status == undefined) {
+            data.field.status = 1;
+        }else {
+            data.field.status = 0;
+        }
+        $.ajax({
+            url:'/admin/role/role_edit',
+            data: data.field,
+            type:'POST',
+            dataType:'json',
+            success:function (res) {
+                layer.msg(res.msg,{icon:1});
+                setTimeout(function(){window.history.back();},1000);
+            },
+            error:function (res) {
+                //console.log(res.responseJSON.msg)
+                layer.alert(res.responseJSON.msg,{icon: 2});
+                return false;
+            }
+        });
+    })
+
+
+
+
+</script>
+</body>
+
+</html>
+

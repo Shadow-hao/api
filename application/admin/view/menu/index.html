@@ -1,0 +1,92 @@
+
+{include file="public/header"/}
+</head>
+<body>
+<div class="layui-card-body layui-form">
+    <div style="margin-top: 10px;">
+        <button onclick="N_W(' 添加顶级菜单','/admin/menu/add_menu')" class="layui-btn layui-btn-sm" >
+            <i class="layui-icon layui-icon-add-1"></i>
+            添加顶级菜单
+        </button>
+    </div>
+    <table class="layui-table" lay-skin="line">
+        <colgroup>
+            <col width="150">
+            <col width="60">
+            <col width="100">
+            <col width="60">
+            <col width="80">
+            <col width="300">
+
+        </colgroup>
+        <thead>
+        <tr>
+            <th>菜单名称</th>
+            <th>图标</th>
+            <th>菜单URL</th>
+            <th>排序</th>
+            <th>是否隐藏</th>
+            <th>操作</th>
+        </tr>
+        </thead>
+        <tbody>
+        {volist name="menu" id="vo"}
+        <tr class="menu {$vo.pid ?"layui-hide" :''}" data-pid="{$vo.pid}" data-mid="{$vo.id}">
+        <td style="text-indent:{$vo['Count']*23}px;">
+            <i style="cursor: pointer" class="layui-icon icon layui-icon-up"> </i>
+            {neq name="vo.Count" value="1"}| -- {/neq}{$vo.name}</td>
+        <td><i class="layui-icon {$vo.icon} "></i></td>
+        <td>{$vo.pid? $vo.url : "顶级菜单"}</td>
+        <td>{$vo.order}</td>
+        <td>
+            <input type="checkbox" name="status" disabled {$vo.ishidden? '' :'checked'} lay-skin="switch" lay-text="显示|隐藏">
+        </td>
+        <td>
+            {eq name="vo.Count" value="3"}
+            <a class="layui-btn layui-btn-xs layui-btn-disabled"  >
+                <i class="layui-icon layui-icon-add-1"></i>添加子菜单
+            </a>
+            {else/}
+            <a class="layui-btn layui-btn-xs" onclick="N_W('添加子级菜单','/admin/menu/addc_menu','{$vo.id}&&name={$vo.name}')">
+                <i class="layui-icon layui-icon-add-1"></i>添加子菜单
+            </a>
+            {/eq}
+
+
+            <a class="layui-btn layui-btn-xs" onclick="N_W('编辑菜单','/admin/menu/edit_menu',{$vo.id})">
+                <i class="layui-icon layui-icon-edit"></i>编辑菜单
+            </a>
+            <a class="layui-btn layui-btn-danger layui-btn-xs" onclick="del('/admin/menu/del_menu',{$vo.id})">
+                <i class="layui-icon layui-icon-delete"></i>删除
+            </a>
+        </td>
+        </tr>
+        {/volist}
+        </tbody>
+    </table>
+</div>
+</body>
+{include file="public/js"}
+<script>
+    $('.icon').click(function () {
+        var that = $(this);
+        var p = that.parent().parent();
+        if (that.attr('class') == 'layui-icon icon layui-icon-up') {
+            $('tr').each(function () {
+                if (($(this).data('pid')) == p.data('mid')){
+                    that.removeClass('layui-icon-up').addClass('layui-icon-down');
+                    $(this).removeClass("layui-hide");
+                }
+            })
+        }else {
+            $('tr').each(function () {
+                if (($(this).data('pid')) == p.data('mid') ){
+                    that.removeClass('layui-icon-down').addClass('layui-icon-up');
+                    $(this).addClass("layui-hide");
+                }
+                // console.log(that.children('i'))
+            },);
+        }
+    })
+</script>
+</html>

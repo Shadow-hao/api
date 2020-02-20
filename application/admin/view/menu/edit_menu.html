@@ -1,0 +1,81 @@
+
+{include file="public/header"/}
+</head>
+<body>
+
+<form id="menu_add" class="layui-form" style="padding: 20px 20px 60px 0;">
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">菜单名称</label>
+        <div class="layui-input-inline">
+            <input type="text" name ="name" lay-verify="required" value="{$data.name}" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+    {neq name="data.pid" value="0"}
+    <div class="layui-form-item">
+        <label class="layui-form-label">菜单URL</label>
+        <div class="layui-input-inline">
+            <input type="text" name="url"  value="{$data.url}"  autocomplete="off" class="layui-input">
+        </div>
+    </div>
+    {/neq}
+
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">图标</label>
+        <div class="layui-input-inline">
+            <input type="text" name="icon"  value="{$data.icon}" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">排序</label>
+        <div class="layui-input-inline">
+            <input type="text" name="order" value="{$data.order}"  autocomplete="off" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">状态</label>
+        <div class="layui-input-block">
+            <input type="checkbox" name="ishidden" {$data.ishidden? '' : 'checked'} lay-skin="switch" lay-text="显示|隐藏">
+        </div>
+    </div>
+    <input type="hidden" name="id" value="{$data.id}">
+    <div style="padding-bottom: 10px;float: right;">
+        <button type="button" class="layui-btn" lay-submit lay-filter="edit" >修改</button>
+        <button type="button" class="layui-btn"  id="close">取消</button>
+    </div>
+
+</form>
+
+{include file="public/js"}
+
+</body>
+<script>
+
+    layui.form.on('submit(edit)',function (data) {
+        if (data.field.ishidden == undefined) {
+            data.field.ishidden = 1;
+        }else {
+            data.field.ishidden = 0;
+        }
+        $.ajax({
+            url:'/admin/menu/edit_menu',
+            data: data.field,
+            type:'POST',
+            dataType:'json',
+            success:function (res) {
+                layer.msg(res.msg,{icon:1});
+                setTimeout(function(){parent.window.location.reload();},1000);
+            },
+            error:function (res) {
+                //console.log(res.responseJSON.msg)
+                layer.alert(res.responseJSON.msg,{icon: 2});
+                return false;
+            }
+        });
+
+
+    })
+</script>
+</html>
+

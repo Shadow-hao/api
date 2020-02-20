@@ -1,0 +1,74 @@
+{include file="public/header" /}
+</head>
+<div class="layui-card-body layui-form">
+    <div style="padding-bottom: 10px;">
+        <button onclick="N_W('添加管理员','/admin/admin/admin_add')" class="layui-btn layui-btn-sm" >
+            <i class="layui-icon layui-icon-add-1"></i>
+            添加管理员
+        </button>
+    </div>
+    <table class="layui-table" lay-skin="line">
+        <colgroup>
+            <col width="100">
+            <col width="110">
+
+            <col width="100">
+            <col width="100">
+            <col width="250">
+
+        </colgroup>
+        <thead>
+        <tr>
+            <th>管理员名称</th>
+            <th>所属权限组</th>
+            <th>是否禁用</th>
+            <th>排序</th>
+            <th>操作</th>
+        </tr>
+        </thead>
+        <tbody>
+        {volist name="admin" id="vo"}
+        <tr>
+            <td >{$vo.name} </td>
+            <td>
+                {if condition="($vo.id==1) "} 超级管理员
+                {else /}
+                {$role[$vo.r_id]['name']}
+                {/if}
+
+            </td>
+            <td>
+                <input type="checkbox" {$vo.status? '' :'checked'} name="status" disabled lay-skin="switch" lay-text="启用|禁用">
+            </td>
+            <td>{$vo.order}</td>
+            <td>
+                {if condition="($vo.id==1) "}
+                <a class="layui-btn layui-btn-xs layui-btn-disabled" >
+                    <i class="layui-icon layui-icon-edit"></i>编辑
+                </a>
+                <a class="layui-btn layui-btn-danger layui-btn-xs layui-btn-disabled">
+                    <i class="layui-icon layui-icon-delete"></i>删除
+                </a>
+
+                {else /}
+                <a class="layui-btn layui-btn-xs" onclick="N_W('编辑管理员','/admin/admin/edit',{$vo.id})">
+                    <i class="layui-icon layui-icon-edit"></i>编辑
+                </a>
+                <a class="layui-btn layui-btn-danger layui-btn-xs" onclick="del('/admin/admin/del','{$vo.id}')">
+                    <i class="layui-icon layui-icon-delete"></i>删除
+                </a>
+                {/if}
+
+            </td>
+        </tr>
+        {/volist}
+        </tbody>
+    </table>
+
+</div>
+
+{include file="public/js"}
+
+</body>
+</html>
+

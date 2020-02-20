@@ -1,0 +1,89 @@
+{include file="public/header"}
+</head>
+<body>
+
+<form id="menu_add" class="layui-form" style="padding: 20px 20px 60px 0;">
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">管理员名称</label>
+        <div class="layui-input-inline">
+            <input type="hidden" name="id" value="{$admin.id}">
+            <input type="text" name ="name" lay-verify="required" value="{$admin['name']}" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">密码</label>
+        <div class="layui-input-inline">
+            <input type="password" name ="password" class="layui-input">
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">所属权限组</label>
+        <div class="layui-input-inline">
+            {volist name="role" id="vo"}
+            {if condition="($Think.session.admin['id'] == 1) "}
+            <input type="radio" name="r_id" value="{$vo.id}"
+                   {eq name="vo.id" value="$admin.r_id"}
+                   checked
+                   {/eq}
+            title="{$vo.name}" lay-skin="primary">
+            {else /}
+            {eq name="vo.right|json_d|a_diff" value="true"}
+            <input type="radio" name="r_id" value="{$vo.id}"
+                   {eq name="vo.id" value="$admin.r_id"}
+                   checked
+                   {/eq}
+            title="{$vo.name}" lay-skin="primary">
+            {/eq}
+            {/if}
+
+            {/volist}
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">排序</label>
+        <div class="layui-input-inline">
+            <input type="text" name="order" lay-verify="required"  value="0" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">是否禁用</label>
+        <div class="layui-input-block">
+            <input type="checkbox" name="status"  checked lay-skin="switch" lay-text="启用|禁用">
+        </div>
+    </div>
+    <div style="padding-bottom: 10px;float: right;">
+        <button type="button" class="layui-btn" lay-submit lay-filter="add_a" >修改</button>
+        <button type="button" class="layui-btn"  id="close">取消</button>
+    </div>
+
+</form>
+
+{include file="public/js"}
+
+</body>
+<script>
+    layui.form.on('submit(add_a)',function (data) {
+        console.log(data.field.password);
+        if (data.field.password == '') {
+            delete data.field.password;
+        }
+        if (data.field.status == undefined) {
+            data.field.status = 1;
+        }else {
+            data.field.status = 0;
+        }
+        $.post('/admin/admin/edit/',data.field,function (res) {
+            if (res.errorCode ==0){
+                layer.msg(res.msg,{icon:1});
+                setTimeout(function(){parent.window.location.reload();},1000);
+            }else {
+                layer.alert(res.msg,{icon:2});
+            }
+
+        },'json')
+    })
+</script>
+</html>
+

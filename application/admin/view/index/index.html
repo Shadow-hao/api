@@ -1,0 +1,113 @@
+{include file="public/header"}
+</head>
+<body class="layui-layout-body">
+
+<div id="LAY_app">
+    <div class="layui-layout layui-layout-admin">
+        <div class="layui-header">
+            <!-- 头部区域 -->
+            <ul class="layui-nav layui-layout-left">
+                <li class="layui-nav-item layadmin-flexible" lay-unselect>
+                    <a href="javascript:;" layadmin-event="flexible" title="侧边伸缩">
+                        <i class="layui-icon layui-icon-shrink-right" id="LAY_app_flexible"></i>
+                    </a>
+                </li>
+                <li class="layui-nav-item layui-hide-xs" lay-unselect>
+                    <a href="/" target="_blank" title="前台">
+                        <i class="layui-icon layui-icon-website"></i>
+                    </a>
+                </li>
+                <li class="layui-nav-item" lay-unselect>
+                    <a href="javascript:;" id="refresh_all" title="刷新全部">
+                        <i class="layui-icon layui-icon-refresh-3"></i>
+                    </a>
+                </li>
+                <li class="layui-nav-item" lay-unselect>
+                    <a href="javascript:;" id="refresh" title="刷新">
+                        <i class="layui-icon layui-icon-refresh-1"></i>
+                    </a>
+                </li>
+                <li class="layui-nav-item layui-hide-xs" lay-unselect>
+                    <input type="text" placeholder="搜索..." autocomplete="off" class="layui-input layui-input-search" layadmin-event="serach" lay-action="template/search.html?keywords=">
+                </li>
+            </ul>
+            <ul class="layui-nav layui-layout-right" lay-filter="layadmin-layout-right">
+
+                <li class="layui-nav-item" lay-unselect>
+                    <a href="javascript:;">
+                        <cite>{$Think.session.admin['name']}</cite>
+                    </a>
+                    <dl class="layui-nav-child">
+                        <dd><a href="javascript:;"onclick="clearF('/admin/system/clear_cache')" >清空缓存文件</a></dd>
+                        <dd><a href="javascript:;"onclick="clearF('/admin/system/clear_log')" >清空系统日志</a></dd>
+                        <hr>
+                        <dd id="logout" style="text-align: center;"><a>退出</a></dd>
+                    </dl>
+                </li>
+
+                <li class="layui-nav-item layui-hide-xs" lay-unselect>
+                    <a href="javascript:;" layadmin-event="about"></a>
+                </li>
+
+            </ul>
+        </div>
+
+        <!-- 侧边菜单 -->
+        <div class="layui-side layui-side-menu">
+            <div class="layui-side-scroll">
+                <div class="layui-logo">
+                    <span>stardust</span>
+                </div>
+
+                <ul class="layui-nav layui-nav-tree" lay-shrink="all" id="LAY-system-side-menu" lay-filter="layadmin-system-side-menu">
+                    {volist name="menu" id="vo"}
+                    <li data-name="senior" class="layui-nav-item  ">
+                        <a href="javascript:;" lay-tips="{$vo.name}" lay-direction="2"
+                           {if !empty($vo['url'])}
+                        src="{$vo.url}" onclick="menuC(this)"
+                        {/if}
+                        >
+                        <i class="layui-icon {$vo.icon}"></i>
+                        <cite>{$vo.name}</cite>
+                        </a>
+                        {if isset($vo['son'])}
+                        <dl class="layui-nav-child">
+                            {volist name="$vo['son']|genTree" id="vo1"}
+                            <dd>
+                                <a href="javascript:; "{if !empty($vo1['url'])}
+                                src="{$vo1.url}" onclick="menuC(this)"
+                                {/if}>{$vo1.name}</a>
+                                {if isset($vo1['son'])}
+                                <dl class="layui-nav-child">
+                                    {volist name="$vo1['son']" id="vo2"}
+                                    <dd><a href="javascript:;"
+                                           {if !empty($vo2['url'])}
+                                        src="{$vo2.url}" onclick="menuC(this)"
+                                        {/if}>
+                                        {$vo2.name}</a></dd>
+                                    {/volist}
+
+                                </dl>
+                                {/if}
+                            </dd>
+                            {/volist}
+                        </dl>
+                        {/if}
+                    </li>
+                    {/volist}
+                </ul>
+            </div>
+        </div>
+        <!-- 主体内容 -->
+        <div class="layui-body" id="LAY_app_body">
+            <div class="layadmin-tabsbody-item layui-show">
+                <iframe name="my_iframe" id="my_iframe" src="/admin/index/home/" frameborder="0" class="layadmin-iframe"></iframe>
+            </div>
+        </div>
+
+
+        {include file="public/js"}
+</body>
+</html>
+
+

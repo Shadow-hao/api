@@ -1,0 +1,83 @@
+{include file="public/header" /}
+</head>
+<body>
+
+<form id="menu_add" class="layui-form" style="padding: 20px 20px 60px 0;" method="post" enctype="multipart/form-data">
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">分类名称</label>
+        <div class="layui-input-inline">
+            <input type="text" name ="name" lay-verify="required" placeholder="请输入商品分类名称" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">分类图片</label>
+        <button type="button" class="layui-btn" id="img">
+            <i class="layui-icon">&#xe67c;</i>上传图片
+        </button>
+        <img src="" id="pre_img" height="40">
+        <input type="hidden" name="img">
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">排序</label>
+        <div class="layui-input-inline">
+            <input type="text" name="order"  value="0" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">是否禁用</label>
+        <div class="layui-input-block">
+            <input type="checkbox" name="status"  checked lay-skin="switch" lay-text="启用|禁用">
+        </div>
+    </div>
+    <div style="padding-bottom: 10px;float: right;">
+        <button type="button" class="layui-btn" lay-submit lay-filter="add_a" >添加</button>
+        <button type="button" class="layui-btn"  id="close">取消</button>
+    </div>
+
+</form>
+
+{include file="public/js"}
+
+</body>
+<script>
+    layui.form.on('submit(add_a)',function (data) {
+        // console.log(data.field);
+        if (data.field.status == undefined) {
+            data.field.status = 1;
+        }else {
+            data.field.status = 0;
+        }
+
+        $.ajax({
+            url:'/admin/category/cate_add/',
+            data: data.field,
+            type:'POST',
+            dataType:'json',
+            success:function (res) {
+                layer.msg(res.msg,{icon:1});
+                setTimeout(function(){parent.window.location.reload();},1000);
+            },
+            error:function (res) {
+                //console.log(res.responseJSON.msg)
+                layer.alert(res.responseJSON.msg,{icon: 2});
+                return false;
+            }
+        });
+    })
+   layui.upload.render({
+       elem: '#img'
+       ,url: '/admin/category/upload'
+       ,accept:'images'
+       ,done: function(res, index, upload){ //上传后的回调
+            $('#pre_img').attr('src',res.img);
+            $('input[name="img"]').val(res.img);
+       }
+       ,error:function (res) {
+           
+       }
+       
+    })
+</script>
+</html>
+

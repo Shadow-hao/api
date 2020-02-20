@@ -1,0 +1,57 @@
+{include file="public/header"}
+    <link rel="stylesheet" href="/static/admin/css/login.css" media="all">
+</head>
+<body  onkeydown="keyLogin();">
+
+<div class="layadmin-user-login layadmin-user-display-show" >
+
+    <div class="layadmin-user-login-main">
+        <div class="layadmin-user-login-box layadmin-user-login-header">
+            <h2>灯塔</h2>
+        </div>
+        <div class="layadmin-user-login-box layadmin-user-login-body layui-form">
+            <div class="layui-form-item">
+                <label class="layadmin-user-login-icon layui-icon layui-icon-username" for="username"></label>
+                <input type="text" name="name" id="username" lay-verify="username" placeholder="用户名" class="layui-input">
+            </div>
+            <div class="layui-form-item">
+                <label class="layadmin-user-login-icon layui-icon layui-icon-password" for="pass"></label>
+                <input type="password" name="password" id="password" lay-verify="pass" placeholder="密码" class="layui-input">
+            </div>
+            <div class="layui-form-item">
+                <div class="layui-row">
+                    <div class="layui-col-xs7">
+                        <label class="layadmin-user-login-icon layui-icon layui-icon-vercode" for="vercode"></label>
+                        <input type="text" name="vercode" id="LAY-user-login-vercode" lay-verify="vercode" placeholder="图形验证码" class="layui-input">
+                    </div>
+                    <div class="layui-col-xs5">
+                        <div style="margin-left: 10px;">
+                            <img src="{:captcha_src()}" class="layadmin-user-login-codeimg" id="vercode">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <button class="layui-btn layui-btn-fluid" id="login" lay-submit lay-filter="login">登 入</button>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="layui-trans layadmin-user-login-footer">
+        <p>© <script>
+            var t= new Date();
+            var year= t.getFullYear();
+            document.write(year);
+        </script>
+            <a href="#" target="_blank">灯塔</a>
+        </p>
+    </div>
+
+
+
+</div>
+{include file="public/js"}
+
+</body>
+</html>
