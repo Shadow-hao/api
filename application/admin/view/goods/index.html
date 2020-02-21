@@ -1,0 +1,86 @@
+{include file="public/header" /}
+</head>
+<div class="layui-card-body layui-form">
+    <div style="padding-bottom: 10px;">
+        <a href="/admin/goods/goods_add" class="layui-btn layui-btn-sm" >
+            <i class="layui-icon layui-icon-add-1"></i>
+            添加商品
+        </a>
+    </div>
+    <table class="layui-table" lay-skin="line">
+        <colgroup>
+            <col width="90">
+            <col width="90">
+            <col width="80">
+            <col width="80">
+            <col width="80">
+            <col width="80">
+            <col width="80">
+            <col width="80">
+            <col width="100">
+            <col width="100">
+            <col width="70">
+            <col width="150">
+        </colgroup>
+        <thead>
+        <tr>
+            <th>商品分类</th>
+            <th>商品名称</th>
+            <th>缩略图</th>
+            <th>份 量</th>
+            <th>商品价格</th>
+            <th>大份价格</th>
+            <th>小份价格</th>
+            <th>口味</th>
+            <th>轮播图</th>
+            <th>热卖</th>
+            <th>排序</th>
+            <th>操作</th>
+        </tr>
+        </thead>
+        <tbody>
+{volist name="goodsList" id="vo"}
+        <tr>
+            <td >
+                {$vo.cates['name']}
+            </td>
+            <td >{$vo.name} </td>
+            <td ><img src="{$vo.imgs.img}" height="35"> </td>
+            <td >
+                <input type="checkbox" {$vo.fenliang ? '' :'checked'} name="status" disabled lay-skin="switch" lay-text="是|否">
+            </td>
+            <td >{$vo.price}</td>
+            <td >{$vo.d_price}</td>
+            <td >{$vo.x_price}</td>
+            <td >
+                <input type="checkbox" {$vo.kouwei? '' :'checked'} name="status" disabled lay-skin="switch" lay-text="是|否">
+
+            </td>
+            <td>
+                <input type="checkbox" {$vo.is_banner? '' :'checked'} name="status" disabled lay-skin="switch" lay-text="是|否">
+            </td>
+            <td>
+                <input type="checkbox" {$vo.status? '' :'checked'}  name="status" disabled lay-skin="switch" lay-text="是|否">
+
+            </td>
+            <td>0</td>
+            <td>
+                <a class="layui-btn layui-btn-xs" onclick="N_W('编辑管理员','/admin/category/edit','{1vo.id}')">
+                    <i class="layui-icon layui-icon-edit"></i>编辑
+                </a>
+                <a class="layui-btn layui-btn-danger layui-btn-xs" onclick="del('/admin/category/del','{1vo.id}')">
+                    <i class="layui-icon layui-icon-delete"></i>删除
+                </a>
+            </td>
+        </tr>
+{/volist}
+        </tbody>
+    </table>
+
+</div>
+
+{include file="public/js"}
+
+</body>
+</html>
+

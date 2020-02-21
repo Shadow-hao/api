@@ -21,7 +21,7 @@ class Category extends BaseModel
 
     //获取分类
     public function get_cate(){
-        return self::with('imgs')->order('order','asc')->select();
+        return self::with('imgs')->order('order','asc')->order('id desc')->select();
     }
     //获取单个分类
     public function get_one(){
@@ -85,16 +85,18 @@ class Category extends BaseModel
 //        exit();
         $img = $_SERVER["DOCUMENT_ROOT"].$data['imgs']['img'];
         if(($res = self::destroy($id))){
+
            if (Db::table('img')->delete($data['imgs']['id'])) {
+               if (file_exists($img)){
+                   unlink($img);
+               }
                throw new ParamException([
                    'code'=>'200',
                    'msg'=>'分类删除成功',
                    'errorCode'=>0,
                ]);
            }
-            if (file_exists($img)){
-                unlink($img);
-            }
+
 
         }
         throw new ParamException([

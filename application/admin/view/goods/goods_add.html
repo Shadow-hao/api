@@ -1,0 +1,138 @@
+{include file="public/header" /}
+<!--<link rel="stylesheet" href="/static/admin/css/goods_style.css" media="all">-->
+</head>
+<body>
+
+<form id="menu_add" class="layui-form" style="padding: 20px 20px 60px 0;" method="post" enctype="multipart/form-data">
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">商品分类</label>
+        <div class="layui-input-inline">
+            <select name="c_id" >
+                <option value="">请选择一个分类</option>
+                {volist name="cate" id="vo"}
+                <option value="{$vo.id}">{$vo.name}</option>
+                {/volist}
+            </select>
+
+
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">商品名称</label>
+        <div class="layui-input-inline">
+            <input type="text" name ="name" lay-verify="required" placeholder="请输入商品分类名称" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">商品图</label>
+        <button type="button" class="layui-btn" id="img">
+            <i class="layui-icon">&#xe67c;</i>上传图片
+        </button>
+        <img src="" id="pre_img" height="40">
+        <input type="hidden" name="img">
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">商品份量</label>
+        <div class="layui-input-block">
+            <input type="checkbox" name="fenliang"  checked lay-skin="switch" lay-text="可选|不可选">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">商品价格</label>
+        <div class="layui-input-inline">
+            <input lay-verify="number" type="text" name="price" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">大份价格</label>
+        <div class="layui-input-inline">
+            <input lay-verify="number" type="text" name="d_price" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">小份价格</label>
+        <div class="layui-input-inline">
+            <input lay-verify="number" type="text" name="x_price" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">口味</label>
+        <div class="layui-input-block">
+            <input type="checkbox" name="kouwei"  checked lay-skin="switch" lay-text="可选|不可选">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">排序</label>
+        <div class="layui-input-inline">
+            <input type="text" name="order"  value="0" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">商品状态</label>
+        <div class="layui-input-block">
+            <input type="checkbox" name="status"  checked lay-skin="switch" lay-text="启用|禁用">
+        </div>
+    </div>
+    <div style="padding-bottom: 10px;text-align: center">
+        <button type="button" class="layui-btn" lay-submit lay-filter="add_a" >添加</button>
+        <button type="button" class="layui-btn"  id="close">取消</button>
+    </div>
+
+</form>
+{include file="public/js"}
+<!--<script src="/static/admin/js/goods.js"></script>-->
+
+</body>
+<script>
+    layui.form.on('submit(add_a)',function (data) {
+        // console.log(data.field);
+        if (data.field.status == undefined) {
+            data.field.status = 1;
+        }else {
+            data.field.status = 0;
+        }
+        if (data.field.fenliang == undefined) {
+            data.field.fenliang = 1;
+        }else {
+            data.field.fenliang = 0;
+        }
+        if (data.field.kouwei == undefined) {
+            data.field.kouwei = 1;
+        }else {
+            data.field.kouwei = 0;
+        }
+
+        $.ajax({
+            url:'/admin/goods/goods_add/',
+            data: data.field,
+            type:'POST',
+            dataType:'json',
+            success:function (res) {
+                layer.msg(res.msg,{icon:1});
+                setTimeout(function(){parent.window.location.reload();},1000);
+            },
+            error:function (res) {
+                //console.log(res.responseJSON.msg)
+                layer.alert(res.responseJSON.msg,{icon: 2});
+                return false;
+            }
+        });
+    })
+    layui.upload.render({
+        elem: '#img'
+        ,url: '/admin/category/upload'
+        ,accept:'images'
+        ,done: function(res, index, upload){ //上传后的回调
+            $('#pre_img').attr('src',res.img);
+            $('input[name="img"]').val(res.img);
+        }
+        ,error:function (res) {
+
+        }
+
+    })
+
+</script>
+</html>
+
