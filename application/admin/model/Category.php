@@ -64,15 +64,13 @@ class Category extends BaseModel
         }
         $c['img']= $img['id'];
         if (self::update($c)){
-           if (Db::table('img')->where('id',$img['id'])->update(['img'=>input('post.img')])){
+           Db::table('img')->where('id',$img['id'])->update(['img'=>input('post.img')]);
                throw new ParamException([
                    'code'=>'200',
                    'msg'=>'分类编辑成功',
                    'errorCode'=>0,
                ]);
            }
-
-        }
         throw new ParamException([
             'code'=>'401',
             'msg'=>'分类编辑失败',
