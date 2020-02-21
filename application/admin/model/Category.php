@@ -80,16 +80,22 @@ class Category extends BaseModel
     //删除分类
     public function del_cate(){
         $id = input('post.id');
-        $img = $_SERVER["DOCUMENT_ROOT"].(self::get($id))->img;
-        if (file_exists($img)){
-            unlink($img);
-        }
-        if((self::destroy($id))){
-            throw new ParamException([
-                'code'=>'200',
-                'msg'=>'分类删除成功',
-                'errorCode'=>0,
-            ]);
+        $data = self::with('imgs')->field('id,img')->find($id);
+//        dump($data['imgs']['id']);
+//        exit();
+        $img = $_SERVER["DOCUMENT_ROOT"].$data['imgs']['img'];
+        if(($res = self::destroy($id))){
+           if (Db::table('img')->delete($data['imgs']['id'])) {
+               throw new ParamException([
+                   'code'=>'200',
+                   'msg'=>'分类删除成功',
+                   'errorCode'=>0,
+               ]);
+           }
+            if (file_exists($img)){
+                unlink($img);
+            }
+
         }
         throw new ParamException([
             'code'=>'401',
