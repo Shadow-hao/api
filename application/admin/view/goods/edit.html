@@ -9,7 +9,7 @@
         <label class="layui-form-label">商品分类</label>
         <div class="layui-input-inline">
             <select name="c_id" >
-                <option value="">请选择一个分类</option>
+                <option value="{$goods.cates['id']}">{$goods.cates['name']}</option>
                 {volist name="cate" id="vo"}
                 <option value="{$vo.id}">{$vo.name}</option>
                 {/volist}
@@ -19,73 +19,75 @@
     <div class="layui-form-item">
         <label class="layui-form-label">商品名称</label>
         <div class="layui-input-inline">
-            <input type="text" name ="name" lay-verify="required" placeholder="请输入商品分类名称" autocomplete="off" class="layui-input">
+            <input type="text" name ="name" lay-verify="required" value="{$goods.name}" autocomplete="off" class="layui-input">
+            <input type="hidden" name ="id" lay-verify="required" value="{$goods.id}">
         </div>
     </div>
     <div class="layui-form-item">
         <label class="layui-form-label">商品图</label>
         <button type="button" class="layui-btn" id="img">
-            <i class="layui-icon">&#xe67c;</i>上传图片
+            <i class="layui-icon">&#xe67c;</i>修改图片
         </button>
-        <img src="" id="pre_img" height="40">
-        <input type="hidden" name="img">
-    </div>
-    <div class="layui-form-item">
-        <label class="layui-form-label">轮播图</label>
-        <div class="layui-input-block">
-            <input type="checkbox" name="is_banner"  checked lay-skin="switch" lay-text="是|否">
-        </div>
-    </div>
-    <div class="layui-form-item">
-        <label class="layui-form-label">设为热卖</label>
-        <div class="layui-input-block">
-            <input type="checkbox" name="is_hot"  checked lay-skin="switch" lay-text="是|否">
-        </div>
+        <img src="{$goods.imgs['img']}" id="pre_img" height="40">
+        <input type="hidden" name="img" value="{$goods.imgs['id']}">
+        <input type="hidden" name="img_id" value="{$goods.imgs['id']}">
     </div>
     <div class="layui-form-item">
         <label class="layui-form-label">商品份量</label>
         <div class="layui-input-block">
-            <input type="checkbox" name="fenliang"  checked lay-skin="switch" lay-text="可选|不可选">
+            <input type="checkbox" name="fenliang" {$goods.fenliang ?'':'checked'}  lay-skin="switch" lay-text="可选|不可选">
         </div>
     </div>
     <div class="layui-form-item">
         <label class="layui-form-label">商品价格</label>
         <div class="layui-input-inline">
-            <input lay-verify="number" type="text" name="price" autocomplete="off" class="layui-input">
+            <input lay-verify="number" type="text" name="price" value="{$goods.price}" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">轮播图</label>
+        <div class="layui-input-block">
+            <input type="checkbox" name="is_banner" {$goods.is_banner ?'':'checked'}  lay-skin="switch" lay-text="是|否">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">热卖</label>
+        <div class="layui-input-block">
+            <input type="checkbox" name="is_hot" {$goods.is_hot ?'':'checked'}  lay-skin="switch" lay-text="是|否">
         </div>
     </div>
     <div class="layui-form-item">
         <label class="layui-form-label">大份价格</label>
         <div class="layui-input-inline">
-            <input lay-verify="number" type="text" name="d_price" autocomplete="off" class="layui-input">
+            <input lay-verify="number" type="text" name="d_price" value="{$goods.d_price}" class="layui-input">
         </div>
     </div>
     <div class="layui-form-item">
         <label class="layui-form-label">小份价格</label>
         <div class="layui-input-inline">
-            <input lay-verify="number" type="text" name="x_price" autocomplete="off" class="layui-input">
+            <input lay-verify="number" type="text" name="x_price" value="{$goods.x_price}" class="layui-input">
         </div>
     </div>
     <div class="layui-form-item">
         <label class="layui-form-label">口味</label>
         <div class="layui-input-block">
-            <input type="checkbox" name="kouwei"  checked lay-skin="switch" lay-text="可选|不可选">
+            <input type="checkbox" name="kouwei" {$goods.kouwei ? '' : 'checked'}  lay-skin="switch" lay-text="可选|不可选">
         </div>
     </div>
     <div class="layui-form-item">
         <label class="layui-form-label">排序</label>
         <div class="layui-input-inline">
-            <input type="text" name="order"  value="0" autocomplete="off" class="layui-input">
+            <input type="text" name="order"  value="{$goods.order}" autocomplete="off" class="layui-input">
         </div>
     </div>
     <div class="layui-form-item">
         <label class="layui-form-label">商品状态</label>
         <div class="layui-input-block">
-            <input type="checkbox" name="status"  checked lay-skin="switch" lay-text="启用|禁用">
+            <input type="checkbox" name="status"  {$goods.status ? '' : 'checked'} lay-skin="switch" lay-text="有货|无货">
         </div>
     </div>
     <div style="padding-bottom: 10px;text-align: center">
-        <button type="button" class="layui-btn" lay-submit lay-filter="add_a" >添加</button>
+        <button type="button" class="layui-btn" lay-submit lay-filter="add_a" >修改</button>
         <a href="/admin/goods/index"  class="layui-btn" >取消</a>
     </div>
 
@@ -124,7 +126,7 @@
         }
 
         $.ajax({
-            url:'/admin/goods/goods_add/',
+            url:'/admin/goods/edit/',
             data: data.field,
             type:'POST',
             dataType:'json',

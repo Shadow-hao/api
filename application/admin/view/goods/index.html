@@ -13,12 +13,13 @@
             <col width="90">
             <col width="80">
             <col width="80">
+            <col width="90">
+            <col width="90">
+            <col width="90">
             <col width="80">
-            <col width="80">
-            <col width="80">
-            <col width="80">
-            <col width="100">
-            <col width="100">
+            <col width="90">
+            <col width="90">
+            <col width="90">
             <col width="70">
             <col width="150">
         </colgroup>
@@ -26,7 +27,7 @@
         <tr>
             <th>商品分类</th>
             <th>商品名称</th>
-            <th>缩略图</th>
+            <th>商品图</th>
             <th>份 量</th>
             <th>商品价格</th>
             <th>大份价格</th>
@@ -34,6 +35,7 @@
             <th>口味</th>
             <th>轮播图</th>
             <th>热卖</th>
+            <th>状态</th>
             <th>排序</th>
             <th>操作</th>
         </tr>
@@ -60,12 +62,14 @@
                 <input type="checkbox" {$vo.is_banner? '' :'checked'} name="status" disabled lay-skin="switch" lay-text="是|否">
             </td>
             <td>
-                <input type="checkbox" {$vo.status? '' :'checked'}  name="status" disabled lay-skin="switch" lay-text="是|否">
-
+                <input type="checkbox" {$vo.is_hot? '' :'checked'}  name="status" disabled lay-skin="switch" lay-text="是|否">
+            </td>
+            <td>
+                <input type="checkbox" {$vo.is_status? '' :'checked'}  name="status" disabled lay-skin="switch" lay-text="有货|无货">
             </td>
             <td>0</td>
             <td>
-                <a class="layui-btn layui-btn-xs" onclick="N_W('编辑管理员','/admin/category/edit','{1vo.id}')">
+                <a class="layui-btn layui-btn-xs" href="/admin/goods/edit?id={$vo.id}")>
                     <i class="layui-icon layui-icon-edit"></i>编辑
                 </a>
                 <a class="layui-btn layui-btn-danger layui-btn-xs" onclick="del('/admin/goods/goods_del','{$vo.id}')">
