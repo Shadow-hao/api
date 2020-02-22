@@ -21,7 +21,7 @@ class Category extends BaseModel
 
     //获取分类
     public function get_cate(){
-        return self::with('imgs')->order('order','asc')->order('id desc')->select();
+        return self::with('imgs')->order('order','asc')->order('create_time asc')->select();
     }
     //获取单个分类
     public function get_one(){

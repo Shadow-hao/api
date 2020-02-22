@@ -46,7 +46,7 @@ class Goods extends BaseModel
         // 获取商品列表
         public function goodsList()
         {
-            return self::with(['imgs','cates'])->order('order','asc')->order('id desc')->select();
+            return self::with(['imgs','cates'])->order('order','asc')->order('id desc')->paginate(10);
         }
         //获取一条商品信息
         public function getGoodsOne($id)

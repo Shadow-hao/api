@@ -10,6 +10,3 @@
 // +----------------------------------------------------------------------
 
 use think\Route;
-Route::rule('getSrc','api/player/getSrc');
-Route::rule('update','api/player/update');
-Route::get('player','api/player/player');
