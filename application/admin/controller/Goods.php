@@ -25,4 +25,10 @@ class Goods extends BaseController
         return $this->fetch();
     }
 
+    public function goods_del()
+    {
+        (new  goodsModel())->del();
+
+    }
+
 }

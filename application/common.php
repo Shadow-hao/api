@@ -84,6 +84,10 @@ function str(){
     $d =md5('灯塔'.date('H'));
     return $d;
 }
-function getStr($str){
-
+//删除图片
+function delImg($path){
+    $path = $_SERVER["DOCUMENT_ROOT"].$path;
+    if (file_exists($path)){
+        unlink($path);
+    }
 }

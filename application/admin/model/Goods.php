@@ -48,4 +48,25 @@ class Goods extends BaseModel
         {
             return self::with(['imgs','cates'])->order('order','asc')->order('id desc')->select();
         }
+        //删除商品
+        public function del(){
+            $id = input('post.id');
+            $data = self::with('imgs')->field('id,img')->find($id);
+            if ($res = self::destroy($id)){
+                if (Db::table('img')->delete($data['imgs']['id'])){
+                    delImg($data['imgs']['img']);
+                }
+                throw new ParamException([
+                    'code'=>'200',
+                    'msg'=>'商品删除成功',
+                    'errorCode'=>0,
+                ]);
+            }
+            throw new ParamException([
+                'code'=>'400',
+                'msg'=>'商品删除失败',
+                'errorCode'=>1,
+            ]);
+
+        }
 }
