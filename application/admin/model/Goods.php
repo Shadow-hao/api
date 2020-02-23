@@ -63,6 +63,7 @@ class Goods extends BaseModel
                 $path = Db::table('img')->field('img')->find(['id'=>$data['img_id']]);
                 delImg($path['img']);
                 //获取上传的图片ID
+                Db::table('img')->where('img',$path['img'])->delete();
                 $img_id = Db::table('img')->insertGetId(['img'=>$data['img']]);
                 $data['img'] = $img_id;
             }
