@@ -42,7 +42,7 @@ class Category extends BaseController
         if (!in_array($ext,array('jpg','png','gif','jpeg'))){
             return json(['code'=>1,'msg'=>'文件格式不正确']);
         }
-        $img= '/uploads/'.$info->getSaveName();
+        $img= '/uploads/'.(str_replace("\\","/",$info->getSaveName()));
         return json(['code'=>0,'img'=>$img]);
     }
 }

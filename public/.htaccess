@@ -6,3 +6,8 @@
   RewriteCond %{REQUEST_FILENAME} !-f
   RewriteRule ^(.*)$ index.php/$1 [QSA,PT,L]
 </IfModule>
+<IfModule mod_headers.c>
+    Header set Access-Control-Allow-Origin: "*"
+    Header set Access-Control-Allow-Methods: "GET,POST,PUT,DELETE,OPTIONS"
+    Header set Access-Control-Allow-Headers: "token,DNT,X-Mx-ReqToken,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Authorization"
+</IfModule>

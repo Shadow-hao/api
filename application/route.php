@@ -10,3 +10,4 @@
 // +----------------------------------------------------------------------
 
 use think\Route;
+Route::get('api/:version/banner', 'api/:version.Banner/getBanner');

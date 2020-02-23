@@ -51,15 +51,17 @@ class Category extends BaseModel
     //编辑分类
     public function edit(){
         $c = input('post.');
-        $cate = self::with('imgs')->find($c['id']);
+        $cate = self::with('imgs')->find($c['id'])->toArray();
         $img = $cate['imgs'];
 //        print_r($c);
 //        print_r($img);
 //        exit();
+        //如果图片更改删除图片和数据库原有记录
         if ($c['img'] !==$img['img'] ){
             $imgs = $_SERVER["DOCUMENT_ROOT"].($img['img']);
            if (file_exists($imgs)){
                unlink($imgs);
+
            }
         }
         $c['img']= $img['id'];
