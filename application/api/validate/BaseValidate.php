@@ -13,6 +13,7 @@ namespace app\api\validate;
 //use app\lib\exception\ForbiddenException;
 //use app\lib\exception\ParameterException;
 //use app\lib\exception\TokenException;
+use app\lib\exception\ParamException;
 use think\Request;
 use think\Validate;
 
@@ -37,7 +38,7 @@ class BaseValidate extends Validate
         $params['token'] = $request->header('token');
 
         if (!$this->check($params)) {
-            $exception = new ParameterException(
+            $exception = new ParamException(
                 [
                     // $this->error有一个问题，并不是一定返回数组，需要判断
                     'msg' => is_array($this->error) ? implode(

@@ -11,3 +11,5 @@
 
 use think\Route;
 Route::get('api/:version/banner', 'api/:version.Banner/getBanner');
+Route::get('api/:version/category', 'api/:version.category/getCategory');
+Route::get('api/:version/hotGoods', 'api/:version.Goods/getHotGoods');
