@@ -45,5 +45,35 @@ class Goods extends BaseController
         (new  goodsModel())->del();
 
     }
+    // 商品详情图
+    public function detail(){
+        $id = input('get.id');
+        $this->assign('id',$id);
+        if (request()->isAjax()){
+            $img = input('post.');
+            $data =[];
+            foreach ($img['data'] as $k => $v){
+                array_push($data,['order'=>$k,'img'=>$v]);
+            }
+            print_r($data);
+            print_r($img['id']);
+        }
+
+        return $this->fetch();
+    }
+    // 删除详情图
+    public function delDetail(){
+       $url =  input('post.url');
+       $path = $_SERVER["DOCUMENT_ROOT"].$url;
+        if (file_exists($path)){
+           if(unlink($path)){
+               return ['code'=>1];
+           }
+
+        }else{
+            return ['code'=>1];
+        }
+
+    }
 
 }

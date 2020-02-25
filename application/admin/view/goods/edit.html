@@ -24,7 +24,7 @@
         </div>
     </div>
     <div class="layui-form-item">
-        <label class="layui-form-label">商品图</label>
+        <label class="layui-form-label">商品主图</label>
         <button type="button" class="layui-btn" id="img">
             <i class="layui-icon">&#xe67c;</i>修改图片
         </button>
@@ -89,6 +89,7 @@
     <div style="padding-bottom: 10px;text-align: center">
         <button type="button" class="layui-btn" lay-submit lay-filter="add_a" >修改</button>
         <a href="/admin/goods/index"  class="layui-btn" >取消</a>
+        <a href="/admin/goods/detail?id={$goods.id}" class="layui-btn" >添加详情图</a>
     </div>
 
 </form>

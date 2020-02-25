@@ -13,7 +13,21 @@ class Goods
         $goods = goodsModel::getHotGoods();
         if (!$goods ) {
             throw new ParamException([
-                'msg' => '请求分类失败',
+                'msg' => '请求商品失败',
+                'code'=>'401',
+                'errorCode' => 40000
+            ]);
+        }
+        return $goods;
+    }
+
+    public function getOneGoods($id)
+    {
+        (new IDMustBePositiveInt())->goCheck();
+        $goods = goodsModel::getOne($id);
+        if (!$goods ) {
+            throw new ParamException([
+                'msg' => '请求商品失败',
                 'code'=>'401',
                 'errorCode' => 40000
             ]);

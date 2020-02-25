@@ -89,5 +89,7 @@ function delImg($path){
     $path = $_SERVER["DOCUMENT_ROOT"].$path;
     if (file_exists($path)){
         unlink($path);
+
     }
+
 }
