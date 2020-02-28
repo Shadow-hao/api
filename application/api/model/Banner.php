@@ -17,7 +17,7 @@ class Banner extends BaseModel
     {
         $banner = self::with(['images'])
             ->order('order','asc')->order('create_time desc')
-            ->where('is_banner','0')->where('status','0')
+            ->where('is_banner','0')
             ->field('id,name,img')
             ->limit($count)->select();
         return $banner;

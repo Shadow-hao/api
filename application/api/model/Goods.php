@@ -10,7 +10,7 @@ use think\Model;
 class Goods extends Model
 
 {
-    protected $hidden = ['img','create_time','update_time'];
+    protected $hidden = ['img','create_time','update_time','items'];
     public function images()
     {
         return $this->belongsTo('Img', 'img', 'id');
@@ -24,7 +24,7 @@ class Goods extends Model
     {
 
         $goods = self::with(['images'])->order('order','asc')
-            ->where('is_hot','0') ->field('id,name,img,price')
+            ->where('is_hot','0') ->field('id,name,img,price,status')
             ->limit(6)->select();
         return $goods;
     }

@@ -14,3 +14,4 @@ Route::get('api/:version/banner', 'api/:version.Banner/getBanner');
 Route::get('api/:version/category', 'api/:version.category/getCategory');
 Route::get('api/:version/hotGoods', 'api/:version.Goods/getHotGoods');
 Route::get('api/:version/Goods/:id', 'api/:version.Goods/getOneGoods');
+Route::get('api/:version/carList', 'api/:version.Goods/carList');

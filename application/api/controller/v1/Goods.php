@@ -4,7 +4,9 @@
 namespace app\api\controller\v1;
 
 use app\api\model\Goods as goodsModel;
+use app\api\validate\IDCollection;
 use app\api\validate\IDMustBePositiveInt;
+use app\lib\exception\ParamException;
 
 class Goods
 {
@@ -33,5 +35,19 @@ class Goods
             ]);
         }
         return $goods;
+    }
+    public function carList($ids=''){
+        (new IDCollection())->goCheck();
+        $ids = explode(',',$ids);
+        $res = goodsModel::with('images')
+            ->select($ids);
+        if ($res->isEmpty()){
+           throw new ParamException([
+               'msg' => '购物车列表获取失败',
+               'code'=>'401',
+               'errorCode' => 40000
+            ]);
+        }
+        return $res;
     }
 }
